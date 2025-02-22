@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { User } from './entities/user.entity';
+import { UserSchema } from './libs/auth/infra/db/typeorm/schemas';
 
 @Module({
   imports: [
@@ -14,13 +12,13 @@ import { User } from './entities/user.entity';
       username: 'postgres',
       password: 'postgres',
       database: 'postgres',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [UserSchema],
       synchronize: true,
+      logging: true,
     }),
-    TypeOrmModule.forFeature([User]),
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
